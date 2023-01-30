@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пациентов</title>
+</head>
+<body>
+<h1 align="center">Список всех пациентов</h1>
+
+<table align="center" border="2" width="600">
+  <thead>
+  <tr>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Дата рождения</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="client : ${clients}">
+    <td align="center">
+      <a th:href="@{/books}" th:text="${client.getName()}">client</a>
+    </td>
+    <td th:text="${client.getSurname()}" align="center"></td>
+    <td th:text="${client.getDateOfBirth()}" align="center"></td>
+    <td><a th:href="@{/owner/{id}/orders(id=${client.getId()})}">Список заказов</a></td>
+  </tr>
+  </tbody>
+</table>
+
+<hr/>
+<br>
+<table align="center" width="300">
+  <tbody>
+  <tr>
+    <td align="center">
+      <form th:method="GET" th:action="@{/books/new}">
+        <input type="submit" value="Добавить книгу"/>
+      </form>
+    </td>
+    <td align="center">
+      <form th:method="GET" th:action="@{/}">
+        <input type="submit" value="Перейти к списку читателей"/>
+      </form>
+    </td>
+
+  </tr>
+  </tbody>
+
+</table>
+</body>
+</html>
