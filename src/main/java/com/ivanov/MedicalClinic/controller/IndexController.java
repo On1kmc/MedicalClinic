@@ -1,4 +1,4 @@
-package com.example.MedicalClinic.controller;
+package com.ivanov.MedicalClinic.controller;
 
 
 import org.springframework.stereotype.Controller;

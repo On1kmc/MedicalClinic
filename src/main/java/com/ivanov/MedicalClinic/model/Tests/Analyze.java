@@ -1,4 +1,4 @@
-package com.example.MedicalClinic.model.Tests;
+package com.ivanov.MedicalClinic.model.Tests;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

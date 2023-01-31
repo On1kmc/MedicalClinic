@@ -1,6 +1,6 @@
-package com.example.MedicalClinic.model;
+package com.ivanov.MedicalClinic.model;
 
-import com.example.MedicalClinic.model.Tests.Analyze;
+import com.ivanov.MedicalClinic.model.Tests.Analyze;
 import jakarta.persistence.*;
 import lombok.Data;
 

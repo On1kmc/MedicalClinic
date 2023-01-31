@@ -5,7 +5,7 @@
     <title>Register new owner</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/new}" th:object="${client}">
+<form th:method="POST" th:action="@{/owner/new}" th:object="${client}">
     <table align="center">
         <tbody>
         <tr>
@@ -35,7 +35,7 @@
                 <label for="birth">Дата рождения</label>
             </td>
             <td>
-                <input type="text" th:field="*{dateOfBirth}" id="birth">
+                <input type="date" id="birth" name="birth">
             </td>
             <td>
                 <p th:if="${#fields.hasErrors('dateOfBirth')}" style="color:red" th:errors="*{dateOfBirth}">ERROR</p>

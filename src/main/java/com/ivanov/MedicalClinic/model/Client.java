@@ -1,4 +1,4 @@
-package com.example.MedicalClinic.model;
+package com.ivanov.MedicalClinic.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

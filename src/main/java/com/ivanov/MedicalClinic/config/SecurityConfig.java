@@ -1,4 +1,4 @@
-package com.example.MedicalClinic.config;
+package com.ivanov.MedicalClinic.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
