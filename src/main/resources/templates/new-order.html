@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register new owner</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/order/new}" th:commandname="analyzes">
+    <table align="center">
+        <tbody>
+            <tr>
+                <select id="analyze1" name="analyze1" style="font:24px Times New Roman">
+                    <option th:value="0">Выберите анализ</option>
+                    <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                </select>
+            </tr>
+            <tr>
+                    <select  th:value="analyze2" id="analyze2" name="analyze2" style="font:24px Times New Roman">
+                        <option th:value="0">Выберите анализ</option>
+                        <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                    </select>
+            </tr>
+            <tr>
+                <input type="hidden" name=client_id th:value="${person_id}"/>
+            </tr>
+            <td>
+                <input type="submit" value="Добавить"/>
+            </td>
+
+        </tbody>
+    </table>
+</form>
+</body>
+</html>

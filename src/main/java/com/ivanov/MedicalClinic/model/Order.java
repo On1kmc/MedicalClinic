@@ -21,8 +21,10 @@ public class Order {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
-    @OneToMany
-    @JoinColumn(name = "analyze_id", referencedColumnName = "id")
+    @ManyToMany
+    @JoinTable(name = "order_analyze",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "analyze_id"))
     private List<Analyze> analyzeList;
 
 }

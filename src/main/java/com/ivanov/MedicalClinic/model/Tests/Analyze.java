@@ -17,4 +17,5 @@ public class Analyze {
     private Integer id;
 
 
+
 }

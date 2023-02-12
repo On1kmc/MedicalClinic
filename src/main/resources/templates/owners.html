@@ -14,6 +14,7 @@
     <th>Фамилия</th>
     <th>Дата рождения</th>
     <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -23,7 +24,11 @@
     </td>
     <td th:text="${client.getSurname()}" align="center"></td>
     <td th:text="${client.getDateOfBirth()}" align="center"></td>
-    <td><a th:href="@{/owner/{id}/orders(id=${client.getId()})}">Список заказов</a></td>
+    <td align="center"><a th:href="@{/owner/{id}/orders(id=${client.getId()})}">Список заказов</a></td>
+    <td align="center"><form th:action="@{/order/new}">
+      <input type="hidden" name="id" th:value="${client.getId()}"/>
+      <button>Новый заказ</button>
+    </form></td>
   </tr>
   </tbody>
 </table>

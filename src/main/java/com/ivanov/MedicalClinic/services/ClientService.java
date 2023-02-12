@@ -27,12 +27,15 @@ public class ClientService {
 
     public void setBirth(Client client, String birth) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(birth);
         Date date = simpleDateFormat.parse(birth);
         client.setDateOfBirth(date);
     }
 
     public List<Client> loadClients() {
         return clientRepo.findAll();
+    }
+
+    public Client getClientById(int id) {
+        return clientRepo.findById(id).get();
     }
 }
