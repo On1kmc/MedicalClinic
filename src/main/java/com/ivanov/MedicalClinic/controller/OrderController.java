@@ -2,11 +2,13 @@ package com.ivanov.MedicalClinic.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ivanov.MedicalClinic.dto.AnalyzeDTO;
 import com.ivanov.MedicalClinic.model.Client;
 import com.ivanov.MedicalClinic.model.Order;
 import com.ivanov.MedicalClinic.model.Tests.Analyze;
 import com.ivanov.MedicalClinic.services.AnalyzeService;
 import com.ivanov.MedicalClinic.services.ClientService;
+import com.ivanov.MedicalClinic.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.HttpHeaders;
@@ -28,17 +30,23 @@ public class OrderController {
 
     private final ClientService clientService;
 
+    private final OrderService orderService;
+
+
+
     @Autowired
-    public OrderController(AnalyzeService analyzeService, ClientService clientService) {
+    public OrderController(AnalyzeService analyzeService, ClientService clientService, OrderService orderService) {
         this.analyzeService = analyzeService;
         this.clientService = clientService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/new")
     public String newOrder(@RequestParam("id") int id, Model model) {
         model.addAttribute("person_id", id);
         List<Analyze> analyzes = analyzeService.findAll();
-        model.addAttribute("analyzes", analyzes);
+        List<AnalyzeDTO> analyzeDTOList = analyzeService.toDTOList(analyzes);
+        model.addAttribute("analyzes", analyzeDTOList);
         return "new-order";
     }
 
@@ -49,13 +57,12 @@ public class OrderController {
         order.setAnalyzeList(analyzes);
         Client client = clientService.getClientById(client_id);
         order.setClient(client);
+        orderService.saveOrder(order);
+
         ObjectMapper mapper = new ObjectMapper();
         String s;
         try {
-            s = mapper.writeValueAsString(order);
-            System.out.println(mapper.writeValueAsString(order));
-            Order order1 = mapper.readValue(s, Order.class);
-            System.out.println(order1.getClient().getName());
+            s = mapper.writeValueAsString(orderService.toOrderDTOToJSON(order));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -66,8 +73,6 @@ public class OrderController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Object> request = new HttpEntity<>(s, headers);
         restTemplate.postForObject(url, request, String.class);
-
-
         return "redirect:/order/new";
     }
 

@@ -8,25 +8,30 @@
 <form th:method="POST" th:action="@{/order/new}" th:commandname="analyzes">
     <table align="center">
         <tbody>
-            <tr>
+        <tr>
+            <td>
                 <select id="analyze1" name="analyze1" style="font:24px Times New Roman">
                     <option th:value="0">Выберите анализ</option>
                     <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
                 </select>
-            </tr>
-            <tr>
-                    <select  th:value="analyze2" id="analyze2" name="analyze2" style="font:24px Times New Roman">
-                        <option th:value="0">Выберите анализ</option>
-                        <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
-                    </select>
-            </tr>
-            <tr>
-                <input type="hidden" name=client_id th:value="${person_id}"/>
-            </tr>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select  th:value="analyze2" id="analyze2" name="analyze2" style="font:24px Times New Roman">
+                    <option th:value="0">Выберите анализ</option>
+                    <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td>
                 <input type="submit" value="Добавить"/>
             </td>
-
+            <td>
+                <input type="hidden" name=client_id th:value="${person_id}"/>
+            </td>
+        </tr>
         </tbody>
     </table>
 </form>

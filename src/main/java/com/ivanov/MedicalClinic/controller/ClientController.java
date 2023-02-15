@@ -1,8 +1,10 @@
 package com.ivanov.MedicalClinic.controller;
 
+import com.ivanov.MedicalClinic.dto.ClientDTO;
 import com.ivanov.MedicalClinic.model.Client;
 import com.ivanov.MedicalClinic.services.ClientService;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,6 +19,8 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+
+
 
     @Autowired
     public ClientController(ClientService clientService) {
@@ -28,18 +30,20 @@ public class ClientController {
     @GetMapping
     public String owners(Model model) {
         List<Client> clientList = clientService.loadClients();
-        model.addAttribute("clients", clientList);
+        List<ClientDTO> clientDTOList = clientService.toClientDTOList(clientList);
+        model.addAttribute("clients", clientDTOList);
         return "owners";
     }
 
 
     @GetMapping("/new")
-    public String newOwner(@ModelAttribute("client") Client client) {
+    public String newOwner(@ModelAttribute("client") ClientDTO clientDTO) {
         return "new-owner";
     }
 
     @PostMapping("/new")
-    public String addOwner(@ModelAttribute("client") @Valid Client client, @RequestParam("birth") String birth, BindingResult bindingResult) {
+    public String addOwner(@ModelAttribute("client") @Valid ClientDTO clientDTO, @RequestParam("birth") String birth, BindingResult bindingResult) {
+        Client client = clientService.toClient(clientDTO);
         try {
             clientService.setBirth(client, birth);
         } catch (ParseException e) {

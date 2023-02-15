@@ -7,7 +7,7 @@
 <body>
 <h1 align="center">Список всех пациентов</h1>
 
-<table align="center" border="2" width="600">
+<table style="margin: 0 auto; width: 600px;" border="2">
   <thead>
   <tr>
     <th>Имя</th>
@@ -19,13 +19,18 @@
   </thead>
   <tbody>
   <tr th:each="client : ${clients}">
-    <td align="center">
+    <td style="text-align: center">
       <a th:href="@{/books}" th:text="${client.getName()}">client</a>
     </td>
     <td th:text="${client.getSurname()}" align="center"></td>
     <td th:text="${client.getDateOfBirth()}" align="center"></td>
-    <td align="center"><a th:href="@{/owner/{id}/orders(id=${client.getId()})}">Список заказов</a></td>
-    <td align="center"><form th:action="@{/order/new}">
+    <td style="text-align: center">
+      <form th:action="@{/}">
+      <input type="hidden" name="id" th:value="${client.getId()}"/>
+      <button>Список заказов</button>
+      </form>
+    </td>
+    <td style="text-align: center"><form th:action="@{/order/new}">
       <input type="hidden" name="id" th:value="${client.getId()}"/>
       <button>Новый заказ</button>
     </form></td>
@@ -35,17 +40,17 @@
 
 <hr/>
 <br>
-<table align="center" width="300">
+<table style="margin: 0 auto; width: 300px">
   <tbody>
   <tr>
-    <td align="center">
-      <form th:method="GET" th:action="@{/books/new}">
-        <input type="submit" value="Добавить книгу"/>
+    <td style="text-align: center">
+      <form th:method="GET" th:action="@{/owner/new}">
+        <input type="submit" value="Добавить клиента"/>
       </form>
     </td>
-    <td align="center">
+    <td style="text-align: center">
       <form th:method="GET" th:action="@{/}">
-        <input type="submit" value="Перейти к списку читателей"/>
+        <input type="submit" value="Перейти на главную"/>
       </form>
     </td>
 
