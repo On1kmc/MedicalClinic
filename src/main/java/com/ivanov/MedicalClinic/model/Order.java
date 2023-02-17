@@ -1,9 +1,9 @@
 package com.ivanov.MedicalClinic.model;
 
-import com.ivanov.MedicalClinic.model.Tests.Analyze;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -26,5 +26,8 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "analyze_id"))
     private List<Analyze> analyzeList;
+
+
+    private LocalDate dateOfOrder;
 
 }

@@ -1,11 +1,13 @@
 package com.ivanov.MedicalClinic.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ivanov.MedicalClinic.dto.AnalyzeDTO;
+import com.ivanov.MedicalClinic.dto.TaskDTOForStatus;
 import com.ivanov.MedicalClinic.model.Client;
 import com.ivanov.MedicalClinic.model.Order;
-import com.ivanov.MedicalClinic.model.Tests.Analyze;
+import com.ivanov.MedicalClinic.model.Analyze;
 import com.ivanov.MedicalClinic.services.AnalyzeService;
 import com.ivanov.MedicalClinic.services.ClientService;
 import com.ivanov.MedicalClinic.services.OrderService;
@@ -14,12 +16,11 @@ import org.springframework.http.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -51,14 +52,16 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public String addOrder(@RequestParam("analyze1") int id1, @RequestParam("analyze2") int id2, @RequestParam("client_id") int client_id) {
+    public String addOrder(@RequestParam("analyze1") int id1, @RequestParam("analyze2") int id2,
+                           @RequestParam("analyze3") int id3, @RequestParam("analyze4") int id4,
+                           @RequestParam("analyze5") int id5, @RequestParam("client_id") int client_id) {
         Order order = new Order();
-        List<Analyze> analyzes = analyzeService.getAnalyzesById(id1, id2);
+        List<Analyze> analyzes = analyzeService.getAnalyzesById(id1, id2, id3, id4, id5);
         order.setAnalyzeList(analyzes);
         Client client = clientService.getClientById(client_id);
         order.setClient(client);
+        order.setDateOfOrder(LocalDate.now());
         orderService.saveOrder(order);
-
         ObjectMapper mapper = new ObjectMapper();
         String s;
         try {
@@ -75,5 +78,26 @@ public class OrderController {
         restTemplate.postForObject(url, request, String.class);
         return "redirect:/order/new";
     }
+
+    @GetMapping("/{id}")
+    public String showOrder(@PathVariable ("id") long id, Model model) throws JsonProcessingException {
+        //Получить статусы для каждого анализа
+        //Из заказа взять каждый анализ и установить статус
+        String url = "http://localhost:8082/new-order?id=" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        String json = restTemplate.getForObject(url, String.class);
+        ArrayList<TaskDTOForStatus> list = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(json);
+        for (JsonNode s : node) {
+            TaskDTOForStatus task = mapper.readValue(s.toString(), TaskDTOForStatus.class);
+            list.add(task);
+        }
+        model.addAttribute("order", id);
+        model.addAttribute("list", list);
+        return "order-page";
+    }
+
+
 
 }

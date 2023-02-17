@@ -1,8 +1,9 @@
-package com.ivanov.MedicalClinic.model.Tests;
+package com.ivanov.MedicalClinic.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -11,11 +12,14 @@ import lombok.Data;
 public class Analyze {
 
     String name;
+
     String description;
 
     @Id
     private Integer id;
 
+    @Transient
+    private String status;
 
 
 }

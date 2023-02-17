@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register new owner</title>
+    <title>Register new order</title>
 </head>
 <body>
+<h1>Создание заказа для клиента</h1>
 <form th:method="POST" th:action="@{/order/new}" th:commandname="analyzes">
     <table align="center">
         <tbody>
@@ -18,7 +19,31 @@
         </tr>
         <tr>
             <td>
-                <select  th:value="analyze2" id="analyze2" name="analyze2" style="font:24px Times New Roman">
+                <select  id="analyze2" name="analyze2" style="font:24px Times New Roman">
+                    <option th:value="0">Выберите анализ</option>
+                    <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select  id="analyze3" name="analyze3" style="font:24px Times New Roman">
+                    <option th:value="0">Выберите анализ</option>
+                    <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select id="analyze4" name="analyze4" style="font:24px Times New Roman">
+                    <option th:value="0">Выберите анализ</option>
+                    <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <select  id="analyze5" name="analyze5" style="font:24px Times New Roman">
                     <option th:value="0">Выберите анализ</option>
                     <option th:each="anal : ${analyzes}" th:value="${anal.getId()}" th:text="${anal.getName()}" style="font:24px Times New Roman"></option>
                 </select>

@@ -20,13 +20,13 @@
   <tbody>
   <tr th:each="client : ${clients}">
     <td style="text-align: center">
-      <a th:href="@{/books}" th:text="${client.getName()}">client</a>
+      <a th:text="${client.getName()}">client</a>
     </td>
     <td th:text="${client.getSurname()}" align="center"></td>
-    <td th:text="${client.getDateOfBirth()}" align="center"></td>
+    <td align="center" th:text="${#dates.format(client.getDateOfBirth(), 'dd-MM-YYYY')}">
+    </td>
     <td style="text-align: center">
-      <form th:action="@{/}">
-      <input type="hidden" name="id" th:value="${client.getId()}"/>
+      <form th:action="@{/owner/{id}(id=${client.getId()})}">
       <button>Список заказов</button>
       </form>
     </td>

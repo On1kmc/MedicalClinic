@@ -1,8 +1,10 @@
 package com.ivanov.MedicalClinic.controller;
 
 import com.ivanov.MedicalClinic.dto.ClientDTO;
+import com.ivanov.MedicalClinic.dto.OrderDTO;
 import com.ivanov.MedicalClinic.model.Client;
 import com.ivanov.MedicalClinic.services.ClientService;
+import com.ivanov.MedicalClinic.services.OrderService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,14 @@ public class ClientController {
 
     private final ClientService clientService;
 
+    private final OrderService orderService;
+
 
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, OrderService orderService) {
         this.clientService = clientService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -49,8 +54,20 @@ public class ClientController {
         } catch (ParseException e) {
             bindingResult.rejectValue("dateOfBirth", "", "Неверная дата");
         }
+        if (bindingResult.hasErrors()) {
+            return "new-owner";
+        }
         clientService.saveOwner(client);
         return "redirect:/owner";
+    }
+
+    @GetMapping("/{id}")
+    public String ownerPage(@PathVariable("id") int id, Model model) {
+        ClientDTO client = clientService.toClientDTO(clientService.findClientById(id));
+        List<OrderDTO> orderList = orderService.getOrderListForClient(id);
+        model.addAttribute("client", client);
+        model.addAttribute("orderList", orderList);
+        return "owner-page";
     }
 
 }
